@@ -1,9 +1,10 @@
-# svtplayarr
+# publicbroadcastarr [![Docker Image Size](https://img.shields.io/docker/image-size/a0a7/publicbroadcastarr)](https://hub.docker.com/r/a0a7/publicbroadcastarr) [![Build and Publish Docker Image](https://github.com/a0a7/publicbroadcastarr/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/a0a7/publicbroadcastarr/actions/workflows/docker-publish.yml)
+
 *arr stack integration for SVT Play and NRK (Swedish and Norwegian public broadcaster streaming services)
 
 ## Overview
 
-SVTPlayArr is a service that integrates SVT Play and NRK (the respective public broadcaster streaming services for Sweden and Norway) with your *arr stack. When content is requested through Jellyseerr or Overseerr and is available on SVT Play or NRK, it will be automatically downloaded using svtplay-dl.
+publicbroadcastarr is a service that integrates SVT Play and NRK (the respective public broadcaster streaming services for Sweden and Norway) with your *arr stack. When content is requested through Jellyseerr or Overseerr and is available on SVT Play or NRK, it will be automatically downloaded using svtplay-dl.
 
 ## Features
 
@@ -24,16 +25,16 @@ Chose a container registry:
 **Docker Hub:**
 ```yaml
 services:
-  svtplayarr:
-    image: username/svtplayarr:latest
+  publicbroadcastarr:
+    image: username/publicbroadcastarr:latest
     # ... rest of config
 ```
 
 **GitHub Container Registry:**
 ```yaml
 services:
-  svtplayarr:
-    image: ghcr.io/username/svtplayarr:latest
+  publicbroadcastarr:
+    image: ghcr.io/username/publicbroadcastarr:latest
     # ... rest of config
 ```
 
@@ -66,7 +67,7 @@ services:
 
 The webhook URL depends on your setup:
 
-- **Docker Compose (same network)**: `http://svtplayarr:2626/webhook`
+- **Docker Compose (same network)**: `http://publicbroadcastarr:2626/webhook`
 - **Docker with host networking**: `http://localhost:2626/webhook`
 - **Different networks**: `http://<container-ip>:2626/webhook`
 - **External Jellyseerr**: `http://<host-ip>:2626/webhook`
@@ -125,9 +126,9 @@ Update configuration
 version: '3.8'
 
 services:
-  svtplayarr:
+  publicbroadcastarr:
     build: .
-    container_name: svtplayarr
+    container_name: publicbroadcastarr
     restart: unless-stopped
     ports:
       - "2626:2626"
@@ -153,11 +154,11 @@ The webhook URL depends on your Docker setup:
 ### Scenario 1: All services in same Docker Compose network (Recommended)
 1. Go to Jellyseerr/Overseerr Settings → Notifications
 2. Add a new Webhook notification
-3. Set URL to: `http://svtplayarr:2626/webhook`
+3. Set URL to: `http://publicbroadcastarr:2626/webhook`
 4. Enable for "Media Requested" events
 5. Set request types to both Movies and TV Shows
 
-### Scenario 2: Jellyseerr/Overseerr on host, SVTPlayArr in Docker
+### Scenario 2: Jellyseerr/Overseerr on host, publicbroadcastarr in Docker
 1. Use URL: `http://localhost:2626/webhook`
 2. Ensure port 2626 is exposed (already configured in docker-compose.yml)
 
@@ -183,7 +184,7 @@ curl -X POST http://localhost:2626/webhook \
 
 ### Logs
 ```bash
-docker-compose logs -f svtplayarr
+docker-compose logs -f publicbroadcastarr
 ```
 
 ### Test Connection
