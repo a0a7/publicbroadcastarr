@@ -45,5 +45,3 @@ Thumbs.db
 logs/
 downloads/
 test-downloads/
-
-.github/workflows/sync-fork.yml
