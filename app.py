@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-class SVTPlayArr:
+class Publicbroadcastarr:
     def __init__(self):
         self.config = self.load_config()
         
@@ -186,7 +186,7 @@ class SVTPlayArr:
     def notify_sonarr(self, title, path):
         return self.arr_integration.notify_sonarr_download(title, path)
 
-svtplayarr = SVTPlayArr()
+publicbroadcastarr = Publicbroadcastarr()
 
 @app.route('/health')
 def health():
@@ -231,7 +231,7 @@ def webhook():
         logger.debug(f"Webhook payload: {json.dumps(data, indent=2)}")
         
         # Search for content
-        results = svtplayarr.search_content(title, media_type)
+        results = publicbroadcastarr.search_content(title, media_type)
         
         if not results['svt'] and not results['nrk']:
             logger.info(f"Content not found on SVT/NRK: {title}")
@@ -243,21 +243,21 @@ def webhook():
         # First try JustWatch results
         for provider, items in results.items():
             if items and not downloaded:
-                urls = svtplayarr.content_matcher.extract_urls_from_justwatch(items, provider)
+                urls = publicbroadcastarr.content_matcher.extract_urls_from_justwatch(items, provider)
                 if urls:
-                    best_url = svtplayarr.content_matcher.get_best_match_url(urls, title)
-                    if best_url and svtplayarr.download_content(best_url, title, media_type):
+                    best_url = publicbroadcastarr.content_matcher.get_best_match_url(urls, title)
+                    if best_url and publicbroadcastarr.download_content(best_url, title, media_type):
                         downloaded = True
                         break
         
         # Fallback to direct search if JustWatch didn't work
         if not downloaded:
             for provider in ['svt', 'nrk']:
-                if not downloaded and svtplayarr.config['providers'].get(f'{provider}_play' if provider == 'svt' else provider):
-                    direct_urls = svtplayarr.content_matcher.find_direct_urls(title, provider)
+                if not downloaded and publicbroadcastarr.config['providers'].get(f'{provider}_play' if provider == 'svt' else provider):
+                    direct_urls = publicbroadcastarr.content_matcher.find_direct_urls(title, provider)
                     if direct_urls:
-                        best_url = svtplayarr.content_matcher.get_best_match_url(direct_urls, title)
-                        if best_url and svtplayarr.download_content(best_url, title, media_type):
+                        best_url = publicbroadcastarr.content_matcher.get_best_match_url(direct_urls, title)
+                        if best_url and publicbroadcastarr.download_content(best_url, title, media_type):
                             downloaded = True
                             break
         
@@ -307,23 +307,23 @@ def search():
     if not title:
         return jsonify({'error': 'Title parameter required'}), 400
     
-    results = svtplayarr.search_content(title, media_type)
+    results = publicbroadcastarr.search_content(title, media_type)
     return jsonify(results)
 
 @app.route('/config')
 def get_config():
-    return jsonify(svtplayarr.config)
+    return jsonify(publicbroadcastarr.config)
 
 @app.route('/config', methods=['POST'])
 def update_config():
     try:
         new_config = request.get_json()
         if new_config:
-            svtplayarr.config.update(new_config)
+            publicbroadcastarr.config.update(new_config)
             
             config_path = Path('/config/config.yml')
             with open(config_path, 'w') as f:
-                yaml.dump(svtplayarr.config, f, default_flow_style=False)
+                yaml.dump(publicbroadcastarr.config, f, default_flow_style=False)
             
             return jsonify({'message': 'Configuration updated'})
         return jsonify({'error': 'No configuration provided'}), 400

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# SVTPlayArr startup script
+# Publicbroadcastarr startup script
 
-echo "Starting SVTPlayArr..."
+echo "Starting Publicbroadcastarr..."
 
 # Check if config exists, create if not
 if [ ! -f /config/config.yml ]; then

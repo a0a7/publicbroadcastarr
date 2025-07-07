@@ -1,10 +1,10 @@
-# SVTPlayArr Makefile
+# Publicbroadcastarr Makefile
 
 .PHONY: help build test run stop clean publish publish-dockerhub publish-ghcr publish-both
 
 # Default target
 help:
-	@echo "SVTPlayArr Build Commands:"
+	@echo "Publicbroadcastarr Build Commands:"
 	@echo "  build            - Build Docker image locally"
 	@echo "  test             - Build and run test environment"
 	@echo "  run              - Run with docker-compose"
@@ -17,7 +17,7 @@ help:
 
 # Build the Docker image
 build:
-	docker build -t svtplayarr:latest .
+	docker build -t publicbroadcastarr:latest .
 
 # Build and run test environment
 test:
@@ -44,14 +44,14 @@ stop:
 clean:
 	docker-compose down -v --remove-orphans
 	docker-compose -f docker-compose.test.yml down -v --remove-orphans
-	docker image rm svtplayarr:latest 2>/dev/null || true
+	docker image rm publicbroadcastarr:latest 2>/dev/null || true
 
 # Show logs
 logs:
-	docker-compose logs -f svtplayarr
+	docker-compose logs -f publicbroadcastarr
 
 logs-test:
-	docker-compose -f docker-compose.test.yml logs -f svtplayarr
+	docker-compose -f docker-compose.test.yml logs -f publicbroadcastarr
 
 # Build and publish to Docker Hub only
 publish-dockerhub:
@@ -80,7 +80,7 @@ build-multiplatform-dockerhub:
 	@read -p "Enter Docker Hub username: " username; \
 	docker buildx build \
 		--platform linux/amd64,linux/arm64 \
-		--tag $$username/svtplayarr:latest \
+		--tag $$username/publicbroadcastarr:latest \
 		--push .
 
 # Build multi-platform for GitHub Container Registry
@@ -88,7 +88,7 @@ build-multiplatform-ghcr:
 	@read -p "Enter GitHub username: " username; \
 	docker buildx build \
 		--platform linux/amd64,linux/arm64 \
-		--tag ghcr.io/$$username/svtplayarr:latest \
+		--tag ghcr.io/$$username/publicbroadcastarr:latest \
 		--push .
 
 # Check health

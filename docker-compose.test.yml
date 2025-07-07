@@ -4,9 +4,9 @@ version: '3.8'
 # Use this for testing before publishing
 
 services:
-  svtplayarr:
+  publicbroadcastarr:
     build: .
-    container_name: svtplayarr-test
+    container_name: publicbroadcastarr-test
     restart: unless-stopped
     ports:
       - "2626:2626"

@@ -5,7 +5,7 @@ set -e
 VERSION=${1:-latest}
 DOCKER_USERNAME=${2:-""}
 GITHUB_USERNAME=${3:-""}
-IMAGE_NAME="svtplayarr"
+IMAGE_NAME="publicbroadcastarr"
 
 # Determine registries to publish to
 PUBLISH_DOCKERHUB=false
@@ -21,14 +21,14 @@ if [ -n "$GITHUB_USERNAME" ]; then
     GHCR_IMAGE="ghcr.io/${GITHUB_USERNAME}/${IMAGE_NAME}"
 fi
 
-echo "Building SVTPlayArr version: ${VERSION}"
+echo "Building Publicbroadcastarr version: ${VERSION}"
 
 # Check if buildx is available for multi-platform builds
 if docker buildx version >/dev/null 2>&1; then
     echo "Docker Buildx detected - building multi-platform image"
     
     # Create builder if it doesn't exist
-    docker buildx create --name svtplayarr-builder --use 2>/dev/null || docker buildx use svtplayarr-builder
+    docker buildx create --name publicbroadcastarr-builder --use 2>/dev/null || docker buildx use publicbroadcastarr-builder
     
     # Build tags array
     TAGS=""

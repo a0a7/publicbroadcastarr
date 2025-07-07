@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  svtplayarr:
+  publicbroadcastarr:
     build: .
-    container_name: svtplayarr
+    container_name: publicbroadcastarr
     restart: unless-stopped
     ports:
       - "2626:2626"
