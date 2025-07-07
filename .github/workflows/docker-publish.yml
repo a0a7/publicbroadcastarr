@@ -8,7 +8,7 @@ on:
     branches: [ main, master ]
 
 env:
-  IMAGE_NAME: svtplayarr
+  IMAGE_NAME: publicbroadcastarr
 
 jobs:
   build:
